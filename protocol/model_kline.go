@@ -476,7 +476,7 @@ func (ks Klines) Merge241(n int) Klines {
 
 	result := Klines{}
 
-	for _, dayKs := range mDay {
+	for dateStr, dayKs := range mDay {
 		// 构建 minute → K 映射
 		m := make(map[string]*Kline, len(dayKs))
 		for _, k := range dayKs {
@@ -492,7 +492,7 @@ func (ks Klines) Merge241(n int) Klines {
 				std = append(std, k)
 				lastClose = k.Close
 			} else {
-				t, _ := time.ParseInLocation(timeFormat, key, time.Local)
+				t, _ := time.ParseInLocation(time.DateOnly+timeFormat, dateStr+key, time.Local)
 				std = append(std, &Kline{
 					Time:      t,
 					Open:      lastClose,
